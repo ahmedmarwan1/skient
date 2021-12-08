@@ -13,6 +13,7 @@ using API.Dtos;
 using AutoMapper;
 using API.Controllers;
 using API.Errors;
+using API.Helpers;
 
 namespace SkinetApi.Controllers
 {
@@ -32,11 +33,15 @@ namespace SkinetApi.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
         {
-            var spec = new ProductsWithtypesAndBrandsSpecification();
+            var spec = new ProductsWithtypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFiltersWithCountSpecification(productParams);
             var products = await _productRepo.ListAsync(spec);
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+            var totalItems = await _productRepo.CountAsync(countSpec);
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,
+            productParams.PageSize, totalItems, data));
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
