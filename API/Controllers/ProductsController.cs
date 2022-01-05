@@ -15,7 +15,7 @@ using API.Controllers;
 using API.Errors;
 using API.Helpers;
 
-namespace SkinetApi.Controllers
+namespace API.Controllers
 {
     public class ProductsController : BaseApiController
     {

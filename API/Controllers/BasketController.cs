@@ -4,7 +4,7 @@ using Core.Entities;
 using Core.Interfaces;
 using System.Threading.Tasks;
 
-namespace SkinetApi.Controllers
+namespace API.Controllers
 {
     public class BasketController : BaseApiController
     {
