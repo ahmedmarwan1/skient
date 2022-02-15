@@ -20,7 +20,7 @@ import { BasketSummaryComponent } from './components/basket-summary/basket-summa
     OrderTotalsComponent,
     TextInputComponent,
     StepperComponent,
-    BasketSummaryComponent
+    BasketSummaryComponent,
   ],
   imports: [
     CommonModule,
