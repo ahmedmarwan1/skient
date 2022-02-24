@@ -21,16 +21,31 @@ export class BasketService {
 
   constructor(private http: HttpClient) { }
 
+  createPaymentIntent() {
+    return this.http.post(this.basketUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe(
+        map((basket: IBasket) => {
+          this.basketSource.next(basket);
+          // console.log(this.getCurrentBasketValue());
+        })
+      );
+  }
+
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.shipping = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue();
+    basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
     this.calculateTotals();
+    this.setBasket(basket);
   }
 
   getBasket(id: string) {
     return this.http.get(this.basketUrl + 'basket?id=' + id)
       .pipe(
-        map((basket: IBasket) => { 
+        map((basket: IBasket) => {
           this.basketSource.next(basket);
+          this.shipping = basket.shippingPrice;
           this.calculateTotals();
         })
       );
@@ -40,7 +55,7 @@ export class BasketService {
     return this.http.post(this.basketUrl + 'basket', basket).subscribe((response: IBasket) => {
       this.basketSource.next(response);
       this.calculateTotals();
-    }, error => { 
+    }, error => {
       console.log(error);
     });
   }
@@ -90,13 +105,13 @@ export class BasketService {
     this.basketTotalSource.next(null);
     localStorage.removeItem('basket_id');
   }
-  
+
   deleteBasket(basket: IBasket) {
-    return this.http.delete(this.basketUrl + 'basket?id=' + basket.id).subscribe(() => { 
+    return this.http.delete(this.basketUrl + 'basket?id=' + basket.id).subscribe(() => {
       this.basketSource.next(null);
       this.basketTotalSource.next(null);
       localStorage.removeItem('basket_id');
-    }, error => { 
+    }, error => {
       console.log(error);
     });
   }

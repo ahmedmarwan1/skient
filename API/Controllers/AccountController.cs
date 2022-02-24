@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using API.Extensions;
 using AutoMapper;
+
 namespace API.Controllers
 {
     public class AccountController : BaseApiController

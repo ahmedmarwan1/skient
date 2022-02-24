@@ -2,7 +2,7 @@
     <h4 class="mb-3">Choose your delivery method</h4>
     <div class="row ml-5" formGroupName="deliveryForm">
         <div class="col-6 form-group" *ngFor="let method of deliveryMethods">
-            <input type="radio" 
+            <input type="radio"
                 (click)="setShippingPrice(method)"
                 id={{method.id}}
                 value={{method.id}}
@@ -22,7 +22,7 @@
     <button class="btn btn-outline-primary" cdkStepperPrevious>
         <i class="fa fa-angle-left"></i> Back to Address
     </button>
-    <button class="btn btn-primary" cdkStepperNext>
+    <button [disabled]="checkoutForm.get('deliveryForm').invalid" class="btn btn-primary" cdkStepperNext>
         Go to Review <i class="fa fa-angle-right"></i>
     </button>
 </div>
