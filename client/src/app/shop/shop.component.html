@@ -5,6 +5,7 @@
             <h5 class="text-warning ml-3 mt-4 mb-3">Sort</h5>
             <select class="custom-select mb-4" (change)="onSortSelected($event.target.value)">
                 <option *ngFor="let sort of sortOptions"
+                    [selected]="shopParams.sort === sort.value"
                     [value]="sort.value"
                 >
                     {{sort.name}}
@@ -13,7 +14,7 @@
 
             <h5 class="text-warning ml-3">Brands</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item" 
+                <li class="list-group-item"
                     *ngFor="let brand of brands"
                     [class.active]="brand.id === this.shopParams.barndId"
                     [value]="brand.id"
@@ -26,7 +27,7 @@
             <ul class="list-group my-3">
                 <li class="list-group-item"
                     *ngFor="let type of types"
-                    [class.active]="type.id === this.shopParams.typeId" 
+                    [class.active]="type.id === this.shopParams.typeId"
                     [value]="type.id"
                     (click)="onTypeSelected(type.id)"
                 >
@@ -37,7 +38,7 @@
         </section>
         <section class="col-9">
             <div class="d-flex justify-content-between algin-items-center pb-2">
-                <app-paging-header 
+                <app-paging-header
                     [totalCount]="totalCount"
                     [pageNumber]="this.shopParams.pageNumber"
                     [pageSize]="this.shopParams.pageSize"
@@ -58,9 +59,10 @@
                 <app-pager
                     [pageSize]="shopParams.pageSize"
                     [totalCount]="totalCount"
+                    [pageNumber]="shopParams.pageNumber"
                     (pageChanged)="onPageChanged($event)"
                 ></app-pager>
-            </div>   
-         </section>   
+            </div>
+         </section>
     </div>
 </div>
